@@ -666,6 +666,13 @@ html[data-theme="dark"] .objAction.delete:hover{background:#321c1c;border-color:
 .obj .objTop>span{flex:1;min-width:0}
 @media(max-width:760px){.objAction{width:29px;height:29px}.objActions{opacity:1}}
 
+
+.objRestoreDefaults{
+  display:none;margin-top:8px;width:100%;
+  border:1px dashed var(--border);background:transparent;color:var(--muted);
+  border-radius:10px;padding:9px;font-size:10px;font-weight:800;cursor:pointer
+}
+.objRestoreDefaults.show{display:block}
 </style>
 </head>
 <body>
@@ -762,7 +769,7 @@ html[data-theme="dark"] .objAction.delete:hover{background:#321c1c;border-color:
         </div>
         <div class="objectionHeadActions"><button class="btn addObjBtn" onclick="openObjModal()">＋ Add objection</button><span class="liveBadge">LIVE</span></div>
       </div>
-<div class="objGrid compact" id="objectionGrid"></div>
+<div class="objGrid compact" id="objectionGrid"></div><button class="objRestoreDefaults" id="restoreObjDefaults" onclick="restoreDefaultObjections()">Restore default objections</button>
     </div>
   </div>
 </section>
@@ -946,7 +953,11 @@ function removeLead(id){leads=leads.filter(x=>x.id!==id);localStorage.setItem('s
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
 const builtinObjections=[["“Website ki zarurat nahi hai.”", "Bilkul sir, website har business ke liye compulsory nahi hai. Bas ek question — agar koi new customer aapko Google par search kare, kya aap chahoge ki usko services, photos, reviews aur WhatsApp/Call option ek professional place par mil jaye? Agar haan, toh website useful ho sakti hai. Pehle demo dekh lijiye."], ["“Already website hai.”", "Perfect sir. Replacement ki baat nahi karte. Main sirf 2-minute comparison demo dikha deta hoon. Agar current website better hai, toh aapko kuch change karne ki zarurat nahi."], ["“Bahut expensive hoga.”", "Samajh sakta hoon. Isliye pehle actual demo dekh lijiye. Agar value clear lage toh requirement ke according exact price aur suitable scope bata dunga."], ["“Main soch ke bataunga.”", "Bilkul sir. Bas ek cheez bata dijiye — interest hai but price/requirements decide karni hain, ya currently website priority nahi hai? Aap honestly bata dena, main uske according guide kar dunga."], ["“WhatsApp/Instagram enough hai.”", "Bilkul, Instagram aur WhatsApp useful hain. Website ka role alag hai — woh aapki complete information ko ek controlled, professional place par rakhti hai aur customer ko enquiry/call tak guide kar sakti hai. Main demo dikha deta hoon, aap decide kar lena."], ["“Abhi time nahi hai.”", "No problem sir. Main aapko 30-second WhatsApp demo bhej deta hoon. Jab free ho tab dekh lena. Agar useful laga toh aap mujhe reply kar dena."], ["“Kitne ka hai?”", "Sir, requirement ke according options hain. Main pehle aapko demo dikha deta hoon, phir exact scope aur price bataunga. Agar value suitable lagi tabhi aage badhenge."], ["“Mujhe WhatsApp par details bhejo.”", "Bilkul sir. Main short demo aur details WhatsApp kar deta hoon. Bas ek minute mein aapka preferred number confirm kar leta hoon, phir main bhej deta hoon."]].map((x,i)=>({id:'builtin-'+i,title:x[0],answer:x[1],builtin:true}));
-let customObjections=JSON.parse(localStorage.getItem('salesdesk_custom_objections')||'[]');
+let customObjections=[];
+try{
+  const parsed=JSON.parse(localStorage.getItem('salesdesk_custom_objections')||'[]');
+  customObjections=Array.isArray(parsed)?parsed:[];
+}catch(e){customObjections=[];}
 let editingObjectionId=null;
 
 function allObjections(){
@@ -978,7 +989,10 @@ function saveObjectionForm(e){
     const item=allObjections().find(o=>String(o.id)===String(editingObjectionId));
     if(!item)return;
     if(item.builtin){
-      const overrides=JSON.parse(localStorage.getItem('salesdesk_builtin_objection_overrides')||'{}');
+      let overrides={};
+  let hidden=[];
+  try{overrides=JSON.parse(localStorage.getItem('salesdesk_builtin_objection_overrides')||'{}')||{};}catch(e){}
+  try{hidden=JSON.parse(localStorage.getItem('salesdesk_hidden_builtin_objections')||'[]')||[];}catch(e){}
       overrides[item.id]={title,answer};
       localStorage.setItem('salesdesk_builtin_objection_overrides',JSON.stringify(overrides));
     }else{
@@ -1007,11 +1021,22 @@ function deleteObjection(id){
   }
   renderObjectionLibrary(); showToast('Objection deleted');
 }
+
+function restoreDefaultObjections(){
+  localStorage.removeItem('salesdesk_hidden_builtin_objections');
+  localStorage.removeItem('salesdesk_builtin_objection_overrides');
+  renderObjectionLibrary();
+  showToast('Default objections restored');
+}
+
 function renderObjectionLibrary(){
   const grid=document.getElementById('objectionGrid'); if(!grid)return;
   const overrides=JSON.parse(localStorage.getItem('salesdesk_builtin_objection_overrides')||'{}');
   const hidden=JSON.parse(localStorage.getItem('salesdesk_hidden_builtin_objections')||'[]');
   grid.innerHTML='';
+  const visibleBuiltins=builtinObjections.filter(o=>!hidden.includes(o.id));
+  const restore=document.getElementById('restoreObjDefaults');
+  if(restore) restore.classList.toggle('show',visibleBuiltins.length===0);
   allObjections().filter(o=>!hidden.includes(o.id)).forEach(o=>{
     const data=overrides[o.id] ? {...o,...overrides[o.id]} : o;
     const el=document.createElement('div');
@@ -1044,6 +1069,7 @@ function toggleSidebar(){
  const s=document.querySelector('.sidebar');s.style.display=s.style.display==='flex'?'none':'flex';
 }
 render();
+renderObjectionLibrary();
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('objModalBackdrop')?.classList.contains('open'))closeObjModal();});
 </script>
 </body>
