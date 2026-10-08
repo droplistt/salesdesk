@@ -617,6 +617,55 @@ html[data-theme="dark"] .objectionCard .objGrid.compact .obj .answer{
 body,.card,.obj,.scriptBox,.scriptTabs,.btn,.topbar,.sidebar,.mobileBottomNav{
   transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease;
 }
+
+/* V14 — objection edit/delete controls */
+.objActions{display:flex;align-items:center;gap:4px;opacity:0;transition:opacity .15s ease}
+.obj:hover .objActions,.obj.open .objActions{opacity:1}
+.objAction{
+  width:25px;height:25px;padding:0;border-radius:7px;
+  border:1px solid var(--border);background:var(--surface2);color:var(--muted);
+  display:grid;place-items:center;font-size:11px;font-weight:800;cursor:pointer
+}
+.objAction:hover{color:var(--text);border-color:#b8d878;background:var(--surface3)}
+.objAction.delete:hover{color:#b44343;border-color:#e1b0b0;background:#fff5f5}
+.obj.customObj .objTop{padding-right:0}
+.obj.customObj .objActions{margin-left:auto}
+.objModal .danger{color:#b44343;border-color:#e0b0b0;background:#fff7f7}
+html[data-theme="dark"] .objAction{
+  background:#1b201b;border-color:#374036;color:#aab5a7
+}
+html[data-theme="dark"] .objAction:hover{
+  background:#252d23;border-color:#596b4e;color:#ecf4e6
+}
+html[data-theme="dark"] .objAction.delete:hover{
+  background:#321c1c;border-color:#714040;color:#ff9b9b
+}
+html[data-theme="dark"] .objModal .danger{
+  background:#281818;border-color:#633737;color:#ff9b9b
+}
+@media(max-width:760px){
+  .objActions{opacity:1}
+  .objAction{width:29px;height:29px;border-radius:8px}
+}
+
+
+.objLibraryHint{font-size:9px;color:var(--muted);margin-top:6px}
+
+.objActions{display:flex;align-items:center;gap:4px;margin-left:auto}
+.objAction{
+  width:26px;height:26px;padding:0;border-radius:7px;
+  border:1px solid var(--border);background:var(--surface2);color:var(--muted);
+  display:grid;place-items:center;font-size:11px;font-weight:900;cursor:pointer
+}
+.objAction:hover{color:var(--text);border-color:#b8d878;background:var(--surface3)}
+.objAction.delete:hover{color:#b44343;border-color:#e1b0b0;background:#fff5f5}
+html[data-theme="dark"] .objAction{background:#1b201b;border-color:#374036;color:#aab5a7}
+html[data-theme="dark"] .objAction:hover{background:#252d23;border-color:#596b4e;color:#ecf4e6}
+html[data-theme="dark"] .objAction.delete:hover{background:#321c1c;border-color:#714040;color:#ff9b9b}
+.obj.customObj .objTop,.obj.builtinObj .objTop{display:flex;align-items:center;gap:8px}
+.obj .objTop>span{flex:1;min-width:0}
+@media(max-width:760px){.objAction{width:29px;height:29px}.objActions{opacity:1}}
+
 </style>
 </head>
 <body>
@@ -713,47 +762,7 @@ body,.card,.obj,.scriptBox,.scriptTabs,.btn,.topbar,.sidebar,.mobileBottomNav{
         </div>
         <div class="objectionHeadActions"><button class="btn addObjBtn" onclick="openObjModal()">＋ Add objection</button><span class="liveBadge">LIVE</span></div>
       </div>
-<div class="objGrid compact">
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Website ki zarurat nahi hai.”</span><i>+</i></div>
-          <div class="answer">Bilkul sir, website har business ke liye compulsory nahi hai. Bas ek question — agar koi new customer aapko Google par search kare, kya aap chahoge ki usko services, photos, reviews aur WhatsApp/Call option ek professional place par mil jaye? Agar haan, toh website useful ho sakti hai. Pehle demo dekh lijiye.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Already website hai.”</span><i>+</i></div>
-          <div class="answer">Perfect sir. Replacement ki baat nahi karte. Main sirf 2-minute comparison demo dikha deta hoon. Agar current website better hai, toh aapko kuch change karne ki zarurat nahi.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Bahut expensive hoga.”</span><i>+</i></div>
-          <div class="answer">Samajh sakta hoon. Isliye pehle actual demo dekh lijiye. Agar value clear lage toh requirement ke according exact price aur suitable scope bata dunga.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Main soch ke bataunga.”</span><i>+</i></div>
-          <div class="answer">Bilkul sir. Bas ek cheez bata dijiye — interest hai but price/requirements decide karni hain, ya currently website priority nahi hai? Aap honestly bata dena, main uske according guide kar dunga.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“WhatsApp/Instagram enough hai.”</span><i>+</i></div>
-          <div class="answer">Bilkul, Instagram aur WhatsApp useful hain. Website ka role alag hai — woh aapki complete information ko ek controlled, professional place par rakhti hai aur customer ko enquiry/call tak guide kar sakti hai. Main demo dikha deta hoon, aap decide kar lena.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Abhi time nahi hai.”</span><i>+</i></div>
-          <div class="answer">No problem sir. Main aapko 30-second WhatsApp demo bhej deta hoon. Jab free ho tab dekh lena. Agar useful laga toh aap mujhe reply kar dena.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Kitne ka hai?”</span><i>+</i></div>
-          <div class="answer">Sir, requirement ke according options hain. Main pehle aapko demo dikha deta hoon, phir exact scope aur price bataunga. Agar value suitable lagi tabhi aage badhenge.</div>
-        </div>
-
-        <div class="obj" onclick="toggleObj(this)">
-          <div class="objTop"><span>“Mujhe WhatsApp par details bhejo.”</span><i>+</i></div>
-          <div class="answer">Bilkul sir. Main short demo aur details WhatsApp kar deta hoon. Bas ek minute mein aapka preferred number confirm kar leta hoon, phir main bhej deta hoon.</div>
-        </div>
-      </div>
+<div class="objGrid compact" id="objectionGrid"></div>
     </div>
   </div>
 </section>
@@ -790,13 +799,16 @@ body,.card,.obj,.scriptBox,.scriptTabs,.btn,.topbar,.sidebar,.mobileBottomNav{
 </div>
 
 <div class="objModalBackdrop" id="objModalBackdrop" onclick="if(event.target===this)closeObjModal()">
-  <div class="objModal" role="dialog" aria-modal="true">
-    <h3>Add objection</h3>
-    <p>Save a client objection and your exact response for future calls.</p>
-    <form class="objForm" onsubmit="saveCustomObjection(event)">
+  <div class="objModal" role="dialog" aria-modal="true" aria-labelledby="objModalTitle">
+    <h3 id="objModalTitle">Add objection</h3>
+    <p id="objModalSubtitle">Save a client objection and your exact response for future calls.</p>
+    <form class="objForm" onsubmit="saveObjectionForm(event)">
       <div><label>Client says</label><input id="newObjTitle" required maxlength="120" placeholder="e.g. “Can you make it cheaper?”"></div>
       <div><label>Your response</label><textarea id="newObjAnswer" required maxlength="900" placeholder="Write the response you want to use..."></textarea></div>
-      <div class="objModalActions"><button type="button" class="btn" onclick="closeObjModal()">Cancel</button><button class="btn primary" type="submit">Add objection</button></div>
+      <div class="objModalActions">
+        <button type="button" class="btn" onclick="closeObjModal()">Cancel</button>
+        <button class="btn primary" id="objSaveBtn" type="submit">Add objection</button>
+      </div>
     </form>
   </div>
 </div>
@@ -933,29 +945,82 @@ function addLead(e){
 function removeLead(id){leads=leads.filter(x=>x.id!==id);localStorage.setItem('salesdesk_leads',JSON.stringify(leads));render()}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
+const builtinObjections=[["“Website ki zarurat nahi hai.”", "Bilkul sir, website har business ke liye compulsory nahi hai. Bas ek question — agar koi new customer aapko Google par search kare, kya aap chahoge ki usko services, photos, reviews aur WhatsApp/Call option ek professional place par mil jaye? Agar haan, toh website useful ho sakti hai. Pehle demo dekh lijiye."], ["“Already website hai.”", "Perfect sir. Replacement ki baat nahi karte. Main sirf 2-minute comparison demo dikha deta hoon. Agar current website better hai, toh aapko kuch change karne ki zarurat nahi."], ["“Bahut expensive hoga.”", "Samajh sakta hoon. Isliye pehle actual demo dekh lijiye. Agar value clear lage toh requirement ke according exact price aur suitable scope bata dunga."], ["“Main soch ke bataunga.”", "Bilkul sir. Bas ek cheez bata dijiye — interest hai but price/requirements decide karni hain, ya currently website priority nahi hai? Aap honestly bata dena, main uske according guide kar dunga."], ["“WhatsApp/Instagram enough hai.”", "Bilkul, Instagram aur WhatsApp useful hain. Website ka role alag hai — woh aapki complete information ko ek controlled, professional place par rakhti hai aur customer ko enquiry/call tak guide kar sakti hai. Main demo dikha deta hoon, aap decide kar lena."], ["“Abhi time nahi hai.”", "No problem sir. Main aapko 30-second WhatsApp demo bhej deta hoon. Jab free ho tab dekh lena. Agar useful laga toh aap mujhe reply kar dena."], ["“Kitne ka hai?”", "Sir, requirement ke according options hain. Main pehle aapko demo dikha deta hoon, phir exact scope aur price bataunga. Agar value suitable lagi tabhi aage badhenge."], ["“Mujhe WhatsApp par details bhejo.”", "Bilkul sir. Main short demo aur details WhatsApp kar deta hoon. Bas ek minute mein aapka preferred number confirm kar leta hoon, phir main bhej deta hoon."]].map((x,i)=>({id:'builtin-'+i,title:x[0],answer:x[1],builtin:true}));
 let customObjections=JSON.parse(localStorage.getItem('salesdesk_custom_objections')||'[]');
-function openObjModal(){
-  const m=document.getElementById('objModalBackdrop'); if(!m)return;
-  m.classList.add('open'); setTimeout(()=>document.getElementById('newObjTitle').focus(),40);
+let editingObjectionId=null;
+
+function allObjections(){
+  return [...builtinObjections,...customObjections];
 }
-function closeObjModal(){document.getElementById('objModalBackdrop')?.classList.remove('open')}
-function saveCustomObjection(e){
+function openObjModal(id=null){
+  editingObjectionId=id;
+  const item=id!==null?allObjections().find(o=>String(o.id)===String(id)):null;
+  const m=document.getElementById('objModalBackdrop'); if(!m)return;
+  document.getElementById('objModalTitle').textContent=item?'Edit objection':'Add objection';
+  document.getElementById('objModalSubtitle').textContent=item?'Update the objection or response used during calls.':'Save a client objection and your exact response for future calls.';
+  document.getElementById('objSaveBtn').textContent=item?'Save changes':'Add objection';
+  document.getElementById('newObjTitle').value=item?item.title:'';
+  document.getElementById('newObjAnswer').value=item?item.answer:'';
+  m.classList.add('open');
+  setTimeout(()=>document.getElementById('newObjTitle').focus(),40);
+}
+function openEditObjection(id){ openObjModal(id); }
+function closeObjModal(){
+  document.getElementById('objModalBackdrop')?.classList.remove('open');
+  editingObjectionId=null;
+}
+function saveObjectionForm(e){
   e.preventDefault();
   const title=document.getElementById('newObjTitle').value.trim();
   const answer=document.getElementById('newObjAnswer').value.trim();
   if(!title||!answer)return;
-  customObjections.unshift({id:Date.now(),title,answer});
-  localStorage.setItem('salesdesk_custom_objections',JSON.stringify(customObjections));
-  renderCustomObjections(); e.target.reset(); closeObjModal(); showToast('Objection added');
+  if(editingObjectionId!==null){
+    const item=allObjections().find(o=>String(o.id)===String(editingObjectionId));
+    if(!item)return;
+    if(item.builtin){
+      const overrides=JSON.parse(localStorage.getItem('salesdesk_builtin_objection_overrides')||'{}');
+      overrides[item.id]={title,answer};
+      localStorage.setItem('salesdesk_builtin_objection_overrides',JSON.stringify(overrides));
+    }else{
+      const custom=customObjections.find(o=>String(o.id)===String(editingObjectionId));
+      if(custom){custom.title=title;custom.answer=answer;}
+      localStorage.setItem('salesdesk_custom_objections',JSON.stringify(customObjections));
+    }
+    renderObjectionLibrary(); closeObjModal(); showToast('Objection updated');
+  }else{
+    customObjections.unshift({id:'custom-'+Date.now(),title,answer});
+    localStorage.setItem('salesdesk_custom_objections',JSON.stringify(customObjections));
+    renderObjectionLibrary(); e.target.reset(); closeObjModal(); showToast('Objection added');
+  }
 }
-function renderCustomObjections(){
-  const grid=document.querySelector('.objGrid.compact'); if(!grid)return;
-  grid.querySelectorAll('.customObj').forEach(n=>n.remove());
-  customObjections.slice().reverse().forEach(o=>{
+function deleteObjection(id){
+  const item=allObjections().find(o=>String(o.id)===String(id));
+  if(!item)return;
+  if(!confirm('Delete this objection?'))return;
+  if(item.builtin){
+    const hidden=JSON.parse(localStorage.getItem('salesdesk_hidden_builtin_objections')||'[]');
+    if(!hidden.includes(item.id))hidden.push(item.id);
+    localStorage.setItem('salesdesk_hidden_builtin_objections',JSON.stringify(hidden));
+  }else{
+    customObjections=customObjections.filter(o=>String(o.id)!==String(id));
+    localStorage.setItem('salesdesk_custom_objections',JSON.stringify(customObjections));
+  }
+  renderObjectionLibrary(); showToast('Objection deleted');
+}
+function renderObjectionLibrary(){
+  const grid=document.getElementById('objectionGrid'); if(!grid)return;
+  const overrides=JSON.parse(localStorage.getItem('salesdesk_builtin_objection_overrides')||'{}');
+  const hidden=JSON.parse(localStorage.getItem('salesdesk_hidden_builtin_objections')||'[]');
+  grid.innerHTML='';
+  allObjections().filter(o=>!hidden.includes(o.id)).forEach(o=>{
+    const data=overrides[o.id] ? {...o,...overrides[o.id]} : o;
     const el=document.createElement('div');
-    el.className='obj customObj';
-    el.innerHTML='<div class="objTop"><span>'+esc(o.title)+'</span><i>+</i></div><div class="answer">'+esc(o.answer)+'</div>';
-    el.onclick=()=>toggleObj(el);
+    el.className='obj '+(o.builtin?'builtinObj':'customObj');
+    el.dataset.id=o.id;
+    el.innerHTML='<div class="objTop"><span>'+esc(data.title)+'</span><div class="objActions"><button type="button" class="objAction" title="Edit objection" aria-label="Edit objection">✎</button><button type="button" class="objAction delete" title="Delete objection" aria-label="Delete objection">×</button><i>+</i></div></div><div class="answer">'+esc(data.answer)+'</div>';
+    el.onclick=(e)=>{if(e.target.closest('.objActions'))return;toggleObj(el)};
+    el.querySelector('.objAction').onclick=(e)=>{e.stopPropagation();openEditObjection(o.id)};
+    el.querySelector('.objAction.delete').onclick=(e)=>{e.stopPropagation();deleteObjection(o.id)};
     grid.appendChild(el);
   });
 }
@@ -979,6 +1044,7 @@ function toggleSidebar(){
  const s=document.querySelector('.sidebar');s.style.display=s.style.display==='flex'?'none':'flex';
 }
 render();
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('objModalBackdrop')?.classList.contains('open'))closeObjModal();});
 </script>
 </body>
 </html>
